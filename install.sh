@@ -1,11 +1,13 @@
 #! /bin/bash
-ROOT=`dirname $0`
+ROOT=$(cd "$(dirname '$0')"; pwd)
+echo "ROOT is $ROOT"
 echo "Start install..."
 cd bundle/command-t/ruby/command-t
 ruby extconf.rb
+make clean
 make -j8
-cd  $ROOT
 
-cd bundle/youcompleteme
+cd $ROOT/bundle/youcompleteme
 python install.py
 echo "Install complete."
+
