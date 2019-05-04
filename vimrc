@@ -4,7 +4,7 @@
 " type :part_of_a_command + tab will show a
 " wildmode=longest:list,full means to list all commands.
 set wildmenu
-set wildmode=longest:list,full
+set wildmode=longest:full,full
 
 set showmode
 
