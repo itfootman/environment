@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Sections for set commands                                                  
+"Sections for set commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " type :part_of_a_command + tab will show a
 " wildmode=longest:list,full means to list all commands.
@@ -65,7 +65,7 @@ set tabstop=4
 set expandtab
 %retab!
 
-" Diplay column number and row number when moving cursor. 
+" Diplay column number and row number when moving cursor.
 set ruler
 
 " Auto locate to the word found
@@ -106,7 +106,7 @@ let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:ycm_key_list_select_completion = ['<C-j>', '<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
- 
+
 let g:UltiSnipsSnippetsDir = '~/.vim/bundle/snippets/UltiSnips'
 let g:UltiSnipsSnippetDirectories = ['ultisnips']
 let g:completekey = "<C-l>"
@@ -121,7 +121,7 @@ function! NERDTree_IsValid()
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Sections for setting color theme                                           
+"Sections for setting color theme
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set color theme for lilyterm
 " It will be a dark black background and white foreground.
@@ -205,6 +205,7 @@ let g:CommandTMaxFiles=10000000 "Max number of files showed
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Sections for self-defined commands and hotkeys
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Functons Section """
 function! <SID>ShowTabSpace()
 set list
 set listchars=tab:>-,trail:-
@@ -246,8 +247,8 @@ function ShowTag()
     execute ":tselect " . wordUnderCursor
 endfunction
 
-"Open file in project
-"The value will be set in 'loadproject.vim'
+" Open file in project
+" The value will be set in 'loadproject.vim'
 let g:project_root = ''
 function! <SID>OpenFileInProject()
     let openCmd = ":CommandT " . g:project_root
@@ -255,7 +256,7 @@ function! <SID>OpenFileInProject()
     execute openCmd
 endfunction
 
-"Activate bookmarks placed to source files.
+" Activate bookmarks placed to source files.
 function! <SID>PlaceBookmarks()
   if filereadable(g:vbookmark_bookmarkSaveFile)
     execute ":VbookmarkPlaceAll"
@@ -263,16 +264,23 @@ function! <SID>PlaceBookmarks()
 endfunction
 
 if has("autocmd")
-   autocmd BufRead *.txt set tw=78
-   "autocmd BufEnter * call <SID>ShowTabSpace()
-   "autocmd BufReadPost * if line("'\"") > 0 && line ("'\"") <= line("$") | exe "normal g'\"" |  endif
+  autocmd BufRead *.txt set tw=78
+" Auto show tab and space
+" autocmd BufEnter * call <SID>ShowTabSpace()
+
+" autocmd BufReadPost * if line("'\"") > 0 && line ("'\"") <= line("$") | exe "normal g'\"" |  endif
 "    au BufReadPost *
 "       \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
 "            \ execute("normal `\"") |
 "       \ endif
- au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Auto save last edit position.
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+"
+" Activate window by names.
+" Eg: :Aw _Tabbar -- Activate the tag bar.
+"
 function! ActivateWindowByName(...)
   if a:0
     let l:bufname = bufname(a:1)
@@ -282,50 +290,99 @@ function! ActivateWindowByName(...)
   endif
 endfunction
 
+"""Commands section"""
 if !exists(':Aw')
   command -nargs=? Aw : call ActivateWindowByName(<f-args>)
 endif
 
-if !exists(':ShowTabSpace') 
+if !exists(':ShowTabSpace')
   command -nargs=0 ShowTabSpace : call <SID>ShowTabSpace()
 endif
 
-if !exists(':HideTabSpace') 
+if !exists(':HideTabSpace')
   command -nargs=0 HideTabSpace : call <SID>HideTabSpace()
 endif
 
-if !exists(':ConvertTabToSpace') 
+if !exists(':ConvertTabToSpace')
   command -nargs=0 ConvertTabToSpace : call <SID>ConvertTabToSpace()
 endif
 
-if !exists(':TrimTailSpace') 
+if !exists(':TrimTailSpace')
   command -nargs=0 TrimTailSpace : call <SID>TrimTailSpace()
 endif
 
-"nmap gf :tabedit <cfile><CR>
+""" Hotkey section """
+" nmap gf :tabedit <cfile><CR>
+" map <F9> :NERDTreeToggle<cr>
+
+" Show all tabs and spaces.
 nmap <S-F5> :call <SID>ShowTabSpace()<CR>
+
+" Hide all tabs and spaces.
 nmap <S-F6> :call <SID>HideTabSpace()<CR>
+
+" Convert tab to spaces.
 nmap <S-F7> :call <SID>ConvertTabToSpace()<CR>
+
+" Trim tail spaces.
 nmap <S-F8> :call <SID>TrimTailSpace()<CR>
+
+" Show opened files.
 nmap <S-F9> :files<CR>
+
+" Open file in project.
 nmap <F10> :call <SID>OpenFileInProject()<CR>
+
+" Copy file path.
 nmap <F6> :call <SID>CopyPath()<CR>
+
+" Copy file path and name.
 nmap <F7> :call <SID>CopyFilePathName()<CR>
+
+" Copy file name.
 nmap <F8> :call <SID>CopyFileName()<CR>
-nmap <F4> :TagbarToggle<CR>
-nmap <C-F8> :set mouse=a<CR>
-nmap <C-F9> :set mouse=<CR>
-nmap <C-F3> :call ShowFuncTag()<CR>
-nmap <C-F4> :pclose<CR>
-nmap <C-S-y> :redo<CR>
-"map <F9> :NERDTreeToggle<cr>
+
+" Open nerd tree.
 map <F3> :WMToggle<cr>
+
+" Toggle tagbar.
+nmap <F4> :TagbarToggle<CR>
+
+" Enable mouse.
+nmap <C-F8> :set mouse=a<CR>
+
+" Disable mouse.
+nmap <C-F9> :set mouse=<CR>
+
+" Show function defination.
+nmap <C-F3> :call ShowFuncTag()<CR>
+
+" Close function defination.
+nmap <C-F4> :pclose<CR>
+
+" Redo modifications.
+nmap <C-S-y> :redo<CR>
+
+" List bookmark groups
 nmap lsm :VbookmarkGroup<CR>
+
+" Save visual bookmarks.
 nmap <C-F10> :VbookmarkSave<CR>
+
 "nmap <C-F9> :VbookmarkClearAll<CR>
+" Yank to the line end.
 map <C-g> "+y$
 map <C-y> "+y
+
+" Go to the middle of a line.
 nmap gl  :call cursor(line("."), col("$")/2)<CR>
+
+" Toggle paste mode.
 nnoremap <C-F7> :set invpaste paste?<CR>
+
+" Switch paste mode and no paste mode.
+" no paste mode will enable auto indent.
 set pastetoggle=<C-F7>
+
+" Ctags:Go to the define.
 nnoremap <c-]> g<c-]>

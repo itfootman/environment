@@ -9,5 +9,13 @@ make -j8
 
 cd $ROOT/bundle/youcompleteme
 python install.py
+
+cd $ROOT
+if [ -e ~/.vimrc ]; then
+    mv ~/.vimrc ~/.vimrc.bak
+fi
+
+cp vimrc ~/.vimrc
+
 echo "Install complete."
 
