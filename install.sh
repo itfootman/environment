@@ -15,7 +15,7 @@ if [ -e ~/.vimrc ]; then
     mv ~/.vimrc ~/.vimrc.bak
 fi
 
-cp vimrc ~/.vimrc
+cp $ROOT/environment/vimrc ~/.vimrc
 
 echo "Install complete."
 
