@@ -8,7 +8,7 @@ make clean
 make -j8
 
 cd $ROOT/bundle/youcompleteme
-python install.py
+python install.py --all
 
 cd $ROOT
 if [ -e ~/.vimrc ]; then
