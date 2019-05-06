@@ -4,7 +4,7 @@
 " type :part_of_a_command + tab will show a
 " wildmode=longest:list,full means to list all commands.
 set wildmenu
-set wildmode=longest:full,full
+"set wildmode=longest:full,full
 
 set showmode
 
@@ -189,7 +189,7 @@ let g:DoxygenToolkit_returnTag="@Returns   "
 " Set youcompleteme params
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_server_python_interpreter='/usr/bin/python'
-let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.vim/bundle/youcompleteme/.ycm_extra_conf.py'
 
 " Set commandT params
 let g:CommandTMaxFiles=10000000 "Max number of files showed
